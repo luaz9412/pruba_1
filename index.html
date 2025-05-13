@@ -2,14 +2,12 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Capturar Ubicación</title>
+    <title>Captura de Ubicación Automática</title>
 </head>
 <body>
-    <h2>Captura tu ubicación para el formulario INGRESO</h2>
-    <p>Presiona el botón para capturar tu ubicación. Copia el dato y pégalo manualmente en el formulario en el campo de ubicación.</p>
-    <button onclick="obtenerUbicacion()">Obtener Ubicación</button>
-
-    <p id="ubicacion"></p>
+    <h2>Captura tu ubicación y envía al formulario automáticamente</h2>
+    <p>Haz clic en el botón y serás redirigido al formulario con la ubicación precargada.</p>
+    <button onclick="obtenerUbicacion()">Capturar Ubicación y Enviar</button>
 
     <script>
         function obtenerUbicacion() {
@@ -17,19 +15,25 @@
                 navigator.geolocation.getCurrentPosition(function(position) {
                     var lat = position.coords.latitude;
                     var lon = position.coords.longitude;
-                    document.getElementById("ubicacion").innerHTML = 
-                        "<strong>Tu ubicación es:</strong><br>" + 
-                        lat + ", " + lon + 
-                        "<br><br><a href='https://docs.google.com/forms/d/e/1FAIpQLSd3QzaCOG3jnU860QdrbHZkErO4JcLOZZ0zM-7xuD6LZoawZQ/viewform' target='_blank'>Ir al Formulario INGRESO</a>";
+                    var ubicacion = lat + "," + lon;
+
+                    // Aquí debes poner tu FORM ID correcto y el código de campo correcto
+                    var formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSd3QzaCOG3jnU860QdrbHZkErO4JcLOZZ0zM-7xuD6LZoawZQ/viewform";
+                    var entryID = "entry.2081593853"; // Tu campo de ubicación geográfica
+
+                    // Generar URL con coordenadas en el campo correspondiente
+                    var urlConUbicacion = formUrl + "?usp=pp_url&" + entryID + "=" + encodeURIComponent(ubicacion);
+
+                    // Redirigir automáticamente
+                    window.location.href = urlConUbicacion;
+
                 }, function(error) {
-                    document.getElementById("ubicacion").innerText = 
-                        "Error al obtener ubicación: " + error.message;
+                    alert("Error al obtener ubicación: " + error.message);
                 });
             } else {
-                document.getElementById("ubicacion").innerText = "Tu navegador no soporta geolocalización.";
+                alert("Tu navegador no soporta geolocalización.");
             }
         }
     </script>
 </body>
 </html>
-
