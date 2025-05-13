@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Capturar Ubicación</title>
+</head>
+<body>
+    <h2>Captura tu ubicación para el formulario INGRESO</h2>
+    <p>Presiona el botón para capturar tu ubicación. Copia el dato y pégalo manualmente en el formulario en el campo de ubicación.</p>
+    <button onclick="obtenerUbicacion()">Obtener Ubicación</button>
+
+    <p id="ubicacion"></p>
+
+    <script>
+        function obtenerUbicacion() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var lat = position.coords.latitude;
+                    var lon = position.coords.longitude;
+                    document.getElementById("ubicacion").innerHTML = 
+                        "<strong>Tu ubicación es:</strong><br>" + 
+                        lat + ", " + lon + 
+                        "<br><br><a href='https://docs.google.com/forms/d/e/1FAIpQLSd3QzaCOG3jnU860QdrbHZkErO4JcLOZZ0zM-7xuD6LZoawZQ/viewform' target='_blank'>Ir al Formulario INGRESO</a>";
+                }, function(error) {
+                    document.getElementById("ubicacion").innerText = 
+                        "Error al obtener ubicación: " + error.message;
+                });
+            } else {
+                document.getElementById("ubicacion").innerText = "Tu navegador no soporta geolocalización.";
+            }
+        }
+    </script>
+</body>
+</html>
+
