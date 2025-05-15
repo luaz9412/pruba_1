@@ -26,7 +26,7 @@
             border: 1px solid #ccc;
             font-size: 16px;
         }
-        input[readonly], select[readonly] {
+        input[readonly] {
             background-color: #eee;
             cursor: not-allowed;
         }
@@ -47,37 +47,36 @@
 
     <form id="secure-form" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSd3QzaCOG3jnU860QdrbHZkErO4JcLOZZ0zM-7xuD6LZoawZQ/formResponse" target="_self">
         
-        <label>Nombre.:</label>
+ <label>Nombre completo:</label>
         <select id="nombre" name="entry.7241129" required>
             <option value="" disabled selected>Seleccione un nombre</option>
             <option value="LUIS DIAZ">LUIS DIAZ</option>
-	    <option value="FRANCISCO DIAZ">FRANCISCO DIAZ</option>
             <option value="FERNANDO HERNANDEZ">FERNANDO HERNANDEZ</option>
         </select>
 
 
-        <label>Tipo de registro:</label>
+         <label>Tipo de registro:</label>
         <select name="entry.933602916" required>
             <option value="" disabled selected>Seleccione una opción</option>
             <option value="Ingreso">Ingreso</option>
             <option value="Salida">Salida</option>
         </select>
 
-        <label>Proceso:</label>
+
+  <label>Proceso.:</label>
         <input type="text" id="proceso" name="entry.1170449751" placeholder="Proceso" readonly required>
 
-        <label>Ubicación geográfica:</label>
+       <label>Ubicación geográfica:</label>
         <input type="text" id="geo" name="entry.2081593853" readonly placeholder="Detectando ubicación..." required>
 
-        <button type="submit">Enviar datos.</button>
+        <button type="submit">Enviar.</button>
     </form>
 
+ 
 </div>
 
 <script>
-
-<script>
-    // Captura coordenadas y llena campo
+  // Captura coordenadas y llena campo
     function obtenerUbicacion() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
@@ -92,7 +91,7 @@
         }
     }
 
-    // Ejecutar al cargar
+   // Ejecutar al cargar
     window.onload = obtenerUbicacion;
 
     // Cambiar proceso automáticamente según el nombre seleccionado
@@ -102,8 +101,6 @@
             procesoField.value = "TI";
         } else if (this.value === "FERNANDO HERNANDEZ") {
             procesoField.value = "Ventas";
-	 } else if (this.value === ""FRANCISCO DIAZ) {
-            procesoField.value = "TI";
         } else {
             procesoField.value = "";
         }
@@ -120,6 +117,7 @@
             return;
         }
 
+
         const data = new FormData(form);
 
         fetch(form.action, {
@@ -127,7 +125,7 @@
             mode: 'no-cors',
             body: data
         }).then(() => {
-            alert('Enviado exitosamente.');
+            alert('Sección 1 enviada exitosamente.');
             form.classList.add('hidden');
             document.getElementById('section2').classList.remove('hidden');
         }).catch(() => {
