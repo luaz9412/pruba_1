@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ingreso Seguro Completo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        input, select, button {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        input[readonly] {
+            background-color: #eee;
+            cursor: not-allowed;
+        }
+        button {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Registro de asistencia.</h2>
+
+    <form id="secure-form" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSd3QzaCOG3jnU860QdrbHZkErO4JcLOZZ0zM-7xuD6LZoawZQ/formResponse" target="_self">
+        
+ <label>Nombre completo:</label>
+        <select id="nombre" name="entry.7241129" required>
+            <option value="" disabled selected>Seleccione un nombre</option>
+            <option value="LUIS DIAZ">LUIS DIAZ</option>
+            <option value="FERNANDO HERNANDEZ">FERNANDO HERNANDEZ</option>
+        </select>
+
+
+         <label>Tipo de registro:</label>
+        <select name="entry.933602916" required>
+            <option value="" disabled selected>Seleccione una opción</option>
+            <option value="Ingreso">Ingreso</option>
+            <option value="Salida">Salida</option>
+        </select>
+
+
+  <label>Proceso.:</label>
+        <input type="text" id="proceso" name="entry.1170449751" placeholder="Proceso" readonly required>
+
+       <label>Ubicación geográfica:</label>
+        <input type="text" id="geo" name="entry.2081593853" readonly placeholder="Detectando ubicación..." required>
+
+        <button type="submit">Enviar.</button>
+    </form>
+
+ 
+</div>
+
+<script>
+  // Captura coordenadas y llena campo
+    function obtenerUbicacion() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const lat = position.coords.latitude.toFixed(6);
+                const lon = position.coords.longitude.toFixed(6);
+                document.getElementById('geo').value = lat + "," + lon;
+            }, function(error) {
+                document.getElementById('geo').value = "Error: " + error.message;
+            });
+        } else {
+            document.getElementById('geo').value = "Geolocalización no soportada";
+        }
+    }
+
+   // Ejecutar al cargar
+    window.onload = obtenerUbicacion;
+
+    // Cambiar proceso automáticamente según el nombre seleccionado
+    document.getElementById('nombre').addEventListener('change', function() {
+        const procesoField = document.getElementById('proceso');
+        if (this.value === "LUIS DIAZ") {
+            procesoField.value = "TI";
+        } else if (this.value === "FERNANDO HERNANDEZ") {
+            procesoField.value = "Ventas";
+        } else {
+            procesoField.value = "";
+        }
+    });
+
+    // Envío del formulario con validación
+    document.getElementById('secure-form').addEventListener('submit', function(e){
+        e.preventDefault();
+        const form = e.target;
+        const geoField = document.getElementById('geo');
+
+        if (geoField.value === "" || geoField.value.includes("Error") || geoField.value === "Geolocalización no soportada") {
+            alert('Espere que se cargue la ubicación antes de enviar.');
+            return;
+        }
+
+
+        const data = new FormData(form);
+
+        fetch(form.action, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: data
+        }).then(() => {
+            alert('Sección 1 enviada exitosamente.');
+            form.classList.add('hidden');
+            document.getElementById('section2').classList.remove('hidden');
+        }).catch(() => {
+            alert('Error al enviar. Intente de nuevo.');
+        });
+    });
+</script>
+
+</body>
+</html>
