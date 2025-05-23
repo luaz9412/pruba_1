@@ -135,54 +135,249 @@
 </div>
 
 <script>
-  const nombreInput = document.getElementById("nombre");
-  const procesoInput = document.getElementById("proceso");
-  const geoInput = document.getElementById("geo");
-  const horaDiv = document.getElementById("hora");
-
-  // Lógica automática para asignar el proceso según nombre
-  nombreInput.addEventListener("change", () => {
-    const valor = nombreInput.value;
-    if (valor === "LUIS DIAZ" || valor === "FRANCISCO DIAZ") {
-      procesoInput.value = "TI";
-    } else if (valor === "FERNANDO HERNANDEZ") {
-      procesoInput.value = "Ventas";
-    } else {
-      procesoInput.value = "";
-    }
-
-    // Obtener geolocalización
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const lat = position.coords.latitude.toFixed(6);
-          const lon = position.coords.longitude.toFixed(6);
-          geoInput.value = lat + "," + lon;
-        },
-        (error) => {
-          geoInput.value = "Error de geolocalización";
+  // Captura coordenadas y llena campo
+    function obtenerUbicacion() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const lat = position.coords.latitude.toFixed(6);
+                const lon = position.coords.longitude.toFixed(6);
+                document.getElementById('geo').value = lat + "," + lon;
+            }, function(error) {
+                document.getElementById('geo').value = "Error: " + error.message;
+            });
+        } else {
+            document.getElementById('geo').value = "Geolocalización no soportada";
         }
-      );
-    } else {
-      geoInput.value = "No soportado";
     }
-  });
 
-  // Mostrar hora
-  const mostrarHora = () => {
-    const ahora = new Date();
-    const hora = ahora.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    horaDiv.textContent = "Hora actual: " + hora;
-  };
-  mostrarHora();
+   // Ejecutar al cargar
+    window.onload = obtenerUbicacion;
 
-  // Validación antes de enviar
-  document.getElementById("formulario").addEventListener("submit", function (e) {
-    if (!geoInput.value || geoInput.value.includes("Error") || geoInput.value === "No soportado") {
-      alert("Por favor espera a que se detecte tu ubicación.");
-      e.preventDefault();
-    }
-  });
+    // Cambiar proceso automáticamente según el nombre seleccionado
+    document.getElementById('nombre').addEventListener('change', function() {
+        const procesoField = document.getElementById('proceso');
+
+//GESTION HUMANA
+        if (this.value === "ANDREA ALFARO") {
+            procesoField.value = "GESTIÓN HUMANA";
+        } else if (this.value === "EUGENIO BUITRAGO") {
+            procesoField.value = "GESTIÓN HUMANA";
+  } else if (this.value === "JOSE GONZALEZ") {
+            procesoField.value = "GESTIÓN HUMANA.";
+ } else if (this.value === "DIANA MARTINEZ") {
+            procesoField.value = "GESTIÓN HUMANA.";
+
+//TI
+} else if (this.value === "LUIS DIAZ") {
+            procesoField.value = "GESTIÓN TI.";
+
+
+// CONTABILIDAD.
+} else if (this.value === "PAULA BELTRAN") {
+            procesoField.value = "CONTABILIDAD.";
+} else if (this.value === "NAYIBE BARAHONA") {
+            procesoField.value = "CONTABILIDAD.";
+} else if (this.value === "FELIPE GARCIA") {
+            procesoField.value = "CONTABILIDAD.";
+} else if (this.value === "JEAN HOYOS") {
+            procesoField.value = "CONTABILIDAD.";
+} else if (this.value === "SANDRA MONROY") {
+            procesoField.value = "CONTABILIDAD.";
+} else if (this.value === "ANGY NOVA") {
+            procesoField.value = "CONTABILIDAD.";
+} else if (this.value === "GLORIA RODRIGUEZ") {
+            procesoField.value = "CONTABILIDAD.";
+} else if (this.value === "JOSE VARGAS") {
+            procesoField.value = "CONTABILIDAD.";
+} else if (this.value === "BRIAN VILLALBA") {
+            procesoField.value = "CONTABILIDAD.";
+
+// GESTIÓN DOCUMENTAL
+} else if (this.value === "ERICA ARIAS") {
+            procesoField.value = "GESTIÓN DOCUMENTAL.";
+} else if (this.value === "HUGO GONZALEZ") {
+            procesoField.value = "GESTIÓN DOCUMENTAL.";
+} else if (this.value === "") {
+            procesoField.value = "GESTIÓN DOCUMENTAL.";
+} else if (this.value === "JULIAN MALAGON") {
+            procesoField.value = "GESTIÓN DOCUMENTAL.";
+
+// MOTORIZADOS
+} else if (this.value === "JORGE BUITRAGO") {
+            procesoField.value = "MOTORIZADOS.";
+} else if (this.value === "WILMER CHAPERRO") {
+            procesoField.value = "MOTORIZADOS.";
+} else if (this.value === "LEVER ORTIZ") {
+            procesoField.value = "MOTORIZADOS.";
+} else if (this.value === "WILSON PLAZAS") {
+            procesoField.value = "MOTORIZADOS.";
+} else if (this.value === "JUAN RODRIGUEZ") {
+            procesoField.value = "MOTORIZADOS.";
+
+// OPERACIONES.
+} else if (this.value === "MILDREDIS ALVARADO") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "CARMEN BELTRAN") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "JAIRO BERNAL") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "MERCEDES CALDUCHO") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "SOFIA CAVADIA") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "MARTHA DELGADO") {
+            procesoField.value = "OPERACIONES - DISTRICAR NORTE.";
+} else if (this.value === "LINDA GALLEGO") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "ADRIANA GARCIA") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "DORA GARZON - DISTRICAR NORTE") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "RICARDO HERNANDEZ") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "DIANA HERRERA") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "LUCIA MORENO") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "MARIO MUÑOZ") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "ANDRES MUÑOZ") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "AURORA RODRIGUEZ") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "JOHN RODRIGUEZ") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "MARIO RODRIGUEZ") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "FRANCIS ROMERO - DISTRICAR SUR") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "IRENE SILVA - ABASTOS") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "DIANA SOSA - CIUDAD JARDIN") {
+            procesoField.value = "OPERACIONES.";
+} else if (this.value === "DORA VARGAS") {
+            procesoField.value = "OPERACIONES - SAN ANTONIO.";
+
+// EXTERNO.
+} else if (this.value === "MARLENY MENDOZA") {
+            procesoField.value = "EXTERNO.";
+} else if (this.value === "SANTIAGO RODRIGUEZ") {
+            procesoField.value = "EXTERNO.";
+} else if (this.value === "SERGIO TELLEZ") {
+            procesoField.value = "EXTERNO.";
+} else if (this.value === "ALEJANDRA VELASQUEZ") {
+            procesoField.value = "EXTERNO.";
+
+// ACTIVOS.
+} else if (this.value === "ARFFY ALONSO") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "FRANCINETH BEDOYA") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "ANGIE BELTRAN") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "PAULA PIMIENTA") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "ADRIANA CARDENAS") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "LAURA GARCIA") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "YENNY HERNANDEZ") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "SONIA MARTINEZ") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "GABRIEL MARTINEZ") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "LEIDY MENDOZA") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "ANYI MERCHAN") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "YUDY MORA") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "SEBASTIAN MUÑOZ") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "LEIDER PALOMO") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "DANIEL RAMIREZ") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "ANDREA REDONDO") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "NICOLAS ROMERO") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "EDWARD RONDON") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "ANDERSON VARGAS") {
+            procesoField.value = "ACTIVOS.";
+} else if (this.value === "CAMILO VARGAS") {
+            procesoField.value = "ACTIVOS.";
+
+// HIPOTECARIO.
+} else if (this.value === "DAVID BENAVIDES") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "ANGIE BERMEO") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "MARTHA CANO") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "JAIR CARREÑO") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "DIOMEDES CASTAÑEDA") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "BRAYAN CASTELLANOS") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "VERONIKA CUBILLOS") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "MARIA DAZA") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "STEFANI DIAZ") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "DANNA BELTRAN") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "NIDIA MARIN") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "JEIMMY PEÑA") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "ADRIANA PINZON") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "YULI QUIROGA") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "NATALIA RATIVA") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "MIREYA RODRIGUEZ") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "DIANA SANCHEZ") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "DIANA SIERRA") {
+            procesoField.value = "HIPOTECARIO.";
+} else if (this.value === "DANNA VARGAS") {
+            procesoField.value = "HIPOTECARIO.";
+        }
+    });
+
+    // Envío del formulario con validación
+    document.getElementById('secure-form').addEventListener('submit', function(e){
+        e.preventDefault();
+        const form = e.target;
+        const geoField = document.getElementById('geo');
+
+        if (geoField.value === "" || geoField.value.includes("Error") || geoField.value === "Geolocalización no soportada") {
+            alert('Espere que se cargue la ubicación antes de enviar.');
+            return;
+        }
+
+
+        const data = new FormData(form);
+
+       fetch(form.action, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: data
+        }).then(() => {
+            alert('Enviada exitosamente. Gracias.');
+            form.classList.add('hidden');
+            document.getElementById('section2').classList.remove('hidden');
+        
+        });
+    });
+
 </script>
 
 </body>
