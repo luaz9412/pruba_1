@@ -67,6 +67,26 @@
 </head>
 <body>
 
+  <!-- Google Sign-In -->
+  <div id="g_id_onload"
+      data-client_id="155096931339-qhkplm7e1g45fj5tvvhpju5mgg5mah3m.apps.googleusercontent.com"
+      data-context="signin"
+      data-ux_mode="popup"
+      data-callback="handleCredentialResponse"
+      data-auto_prompt="true">
+  </div>
+
+  <div class="g_id_signin"
+      data-type="standard"
+      data-size="large"
+      data-theme="outline"
+      data-text="sign_in_with"
+      data-shape="rectangular"
+      data-logo_alignment="left">
+  </div>
+
+  <p id="usuarioLogueado" style="font-weight: bold; margin-top: 10px;"></p>
+
   
   <div class="container">
 
@@ -107,34 +127,8 @@
   <div id="hora"></div>
 
   <button type="submit">Enviar registro</button>
-
-      <!-- Google Sign-In -->
-  <div id="g_id_onload"
-      data-client_id="155096931339-qhkplm7e1g45fj5tvvhpju5mgg5mah3m.apps.googleusercontent.com"
-      data-context="signin"
-      data-ux_mode="popup"
-      data-callback="handleCredentialResponse"
-      data-auto_prompt="true">
-  </div>
-
-  <div class="g_id_signin"
-      data-type="standard"
-      data-size="large"
-      data-theme="outline"
-      data-text="sign_in_with"
-      data-shape="rectangular"
-      data-logo_alignment="left">
-  </div>
-
-  <p id="usuarioLogueado" style="font-weight: bold; margin-top: 10px;"></p>
-
 </form>
-
-  
-    
   </section>
-
-
     
 <script>
     // Captura coordenadas y llena campo
