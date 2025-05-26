@@ -147,15 +147,19 @@
   actualizarHora();
 
   
-  // Obtener correo con Google Sign-In (lo haremos en el siguiente paso si lo deseas)
-
-    // Manejar envío (lo conectamos al script en el siguiente paso)
-  document.getElementById("registroForm").addEventListener("submit", function (e) {
+   document.getElementById("registroForm").addEventListener("submit", function (e) {
     e.preventDefault();
-    // En el siguiente paso conectamos esto con Google Apps Script
-    alert("Formulario listo para enviar. Conectaremos al backend.");
-  });
 
+    // Aquí se haría la lógica para enviar datos a Apps Script (en el siguiente paso)
+
+    // Mostrar mensaje de éxito
+    document.getElementById("mensajeExito").style.display = "block";
+
+    // Esperar 3 segundos y recargar la página
+    setTimeout(() => {
+      location.reload();
+    }, 3000); // 3 segundos
+  });
 
 </script>
     </form>
