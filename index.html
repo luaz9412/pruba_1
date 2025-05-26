@@ -6,15 +6,12 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 
-
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
       background: #f2f2f2;
     }
-
-    
     .container {
       background-color: white;
       padding: 20px;
@@ -51,41 +48,38 @@
       font-weight: bold;
       color: #333;
     }
-
-	button {
-	margin-top: 20px;
-	padding: 10px;
-	width: 100%;
-	background: #4CAF50;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	font-size: 16px;
-	}
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      width: 100%;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
     button[type="submit"] {
-  display: block;
-  width: 100%;
-  margin-top: 20px;
-  font-size: 16px;
-  z-index: 10;
-  position: relative;
-}
-
-     .logo {
-            max-width: 50px;
-            margin-bottom: 10px;
-     }
-.hidden {
-  display: none;
-}
-
+      display: block;
+      width: 100%;
+      margin-top: 20px;
+      font-size: 16px;
+      z-index: 10;
+      position: relative;
+    }
+    .logo {
+      max-width: 50px;
+      margin-bottom: 10px;
+    }
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
 
   <!-- Google Sign-In -->
   <div id="g_id_onload"
-      data-client_id="155096931339-qhkplm7e1g45fj5tvvhpju5mgg5mah3m.apps.googleusercontent.com "
+      data-client_id="155096931339-qhkplm7e1g45fj5tvvhpju5mgg5mah3m.apps.googleusercontent.com"
       data-context="signin"
       data-ux_mode="popup"
       data-callback="handleCredentialResponse"
@@ -103,90 +97,81 @@
 
   <p id="usuarioLogueado" style="font-weight: bold; margin-top: 10px;"></p>
 
-  
   <div class="container">
-
-  <img src="https://sitcarsa.github.io/regsIng/LOGO.png" alt="Logo de la empresa" class="logo">
-
+    <img src="https://sitcarsa.github.io/regsIng/LOGO.png" alt="Logo de la empresa" class="logo">
     <h2>Registro de Ingreso / Salida</h2>
+
     <form id="secure-form" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSd3QzaCOG3jnU860QdrbHZkErO4JcLOZZ0zM-7xuD6LZoawZQ/formResponse" target="_self">
-  
+      <label for="nombre">Nombre:</label>
+      <select id="nombre" name="entry.7241129" required>
+        <option value="" disabled selected>Seleccione un nombre</option>
+        <option value="Juan Pérez">Juan Pérez</option>
+        <option value="María Gómez">María Gómez</option>
+        <option value="Carlos Ruiz">Carlos Ruiz</option>
+      </select>
 
-  <label for="nombre">Nombre:</label>
-  <select id="nombre" name="entry.7241129" required>
-  <option value="" disabled selected>Seleccione un nombre</option>
+      <label for="proceso">Proceso:</label>
+      <input type="text" id="proceso" name="entry.1170449751" placeholder="------" readonly required>
 
-    <option value="Juan Pérez">Juan </option>
-    <option value="María Gómez">María Gómez</option>
-    <option value="Carlos Ruiz">Carlos Ruiz</option>
-    <!-- Agrega más colaboradores -->
-  </select>
+      <label for="tipo">Tipo de registro:</label>
+      <select id="tipo" name="entry.933602916" required>
+        <option value="" disabled selected>Seleccione una opción</option>
+        <option value="Ingreso">Ingreso</option>
+        <option value="Salida">Salida</option>
+      </select>
 
-  <label for="proceso">Proceso:</label>
-<input type="text" id="proceso" name="entry.1170449751" placeholder="------" readonly required>
+      <label for="ubicacion">Ubicación:</label>
+      <input type="text" id="ubicacion" name="entry.2081593853" readonly placeholder="Detectando ubicación..." required>
 
-  <label for="tipo">Tipo de registro:</label>
-  <select id="tipo" name="entry.933602916" required>
-  <option value="" disabled selected>Seleccione una opción</option>
+      <label for="correo">Correo electrónico:</label>
+      <input type="email" id="correo" name="entry.1926819478" class="readonly" readonly required>
 
-    <option value="Ingreso">Ingreso</option>
-    <option value="Salida">Salida</option>
-  </select>
+      <label>Hora actual:</label>
+      <div id="hora"></div>
 
-  <label for="ubicacion">Ubicación:</label>
-  <input type="text" id="ubicacion" name="entry.2081593853" readonly placeholder="Detectando ubicación..." required>
+      <button type="submit">Enviar registro</button>
+    </form>
+  </div>
 
-  <label for="correo">Correo electrónico:</label>
-  <input type="email" id="correo" name="entry.1926819478" class="readonly" readonly>
-
-  <label>Hora actual:</label>
-  <div id="hora"></div>
-
-  <button type="submit">Enviar registro</button>
-</form>
-  </section>
-    
-<script>
-    // Captura coordenadas y llena campo
+  <script>
+    // Geolocalización
     function obtenerUbicacion() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                const lat = position.coords.latitude.toFixed(6);
-                const lon = position.coords.longitude.toFixed(6);
-                document.getElementById('ubicacion').value = lat + "," + lon;
-            }, function(error) {
-                document.getElementById('ubicacion').value = "Error: " + error.message;
-            });
-        } else {
-            document.getElementById('ubicacion').value = "Geolocalización no soportada";
-        }
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          const lat = position.coords.latitude.toFixed(6);
+          const lon = position.coords.longitude.toFixed(6);
+          document.getElementById('ubicacion').value = lat + "," + lon;
+        }, function(error) {
+          document.getElementById('ubicacion').value = "Error: " + error.message;
+        });
+      } else {
+        document.getElementById('ubicacion').value = "Geolocalización no soportada";
+      }
     }
-
-   // Ejecutar al cargar
     window.onload = obtenerUbicacion;
 
-  // Asignar proceso según nombre
-  const procesos = {
-    "Juan Pérez": "Soporte Técnico",
-    "María Gómez": "Recursos Humanos",
-    "Carlos Ruiz": "Desarrollo TI"
-  };
+    // Asignar proceso según nombre
+    const procesos = {
+      "Juan Pérez": "Soporte Técnico",
+      "María Gómez": "Recursos Humanos",
+      "Carlos Ruiz": "Desarrollo TI"
+    };
+    document.getElementById("nombre").addEventListener("change", function () {
+      const nombre = this.value;
+      document.getElementById("proceso").value = procesos[nombre] || "";
+    });
 
-  document.getElementById("nombre").addEventListener("change", function () {
-    const nombre = this.value;
-    document.getElementById("proceso").value = procesos[nombre] || "";
-  });
+    // Hora actual
+    function actualizarHora() {
+      const ahora = new Date();
+      const horaFormateada = ahora.toLocaleTimeString();
+      document.getElementById("hora").textContent = horaFormateada;
+    }
+    setInterval(actualizarHora, 1000);
+    actualizarHora();
 
-  // Mostrar hora actual
-  function actualizarHora() {
-    const ahora = new Date();
-    const horaFormateada = ahora.toLocaleTimeString();
-    document.getElementById("hora").textContent = horaFormateada;
-  }
-  setInterval(actualizarHora, 1000);
-  actualizarHora();
-
-      function handleCredentialResponse(response) {
+    // Capturar respuesta de Google
+    function handleCredentialResponse(response) {
       const data = jwt_decode(response.credential);
       const correo = data.email;
       const nombre = data.name;
@@ -196,44 +181,36 @@
       document.querySelector(".g_id_signin").style.display = "none";
     }
 
-       // Envío del formulario con validación
-    	document.getElementById('secure-form').addEventListener('submit', function(e){
-        e.preventDefault();
-        const form = e.target;
-        const geoField = document.getElementById('ubicacion');
-        const correo = document.getElementById('correo').value;
+    // Validación y envío
+    document.getElementById('secure-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const ubicacion = document.getElementById('ubicacion').value;
+      const correo = document.getElementById('correo').value;
 
-            if (!correo) {
+      if (!correo) {
         alert("Por favor, inicia sesión con Google antes de enviar.");
         return;
       }
 
-        if (geoField.value === "" || geoField.value.includes("Error") || geoField.value === "Geolocalización no soportada") {
-            alert('Espere que se cargue la ubicación antes de enviar.');
-            return;
-        }
-        const data = new FormData(form);
+      if (!ubicacion || ubicacion.includes("Error") || ubicacion === "Geolocalización no soportada") {
+        alert("Espere que se cargue la ubicación antes de enviar.");
+        return;
+      }
 
-       fetch(form.action, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: data
+      const data = new FormData(form);
+      fetch(form.action, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: data
       }).then(() => {
-        form.reset();
         alert("Registro enviado correctamente.");
-	form.classList.add('hidden');
-        document.getElementById('secure-form').classList.add('hidden');
-        setTimeout(() => location.reload(), 3000);
-	.catch((error) => {
-  	alert("Ocurrió un error al enviar el registro.");
-  	console.error(error);
-		});// refresca la página después de 3 segundos
+        form.reset();
+        document.getElementById("usuarioLogueado").textContent = "";
+        location.reload();
+      });
     });
-
-
-</script>
-    </form>
-  </div>
+  </script>
 
 </body>
 </html>
