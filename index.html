@@ -128,20 +128,25 @@
   actualizarHora();
 
   // Obtener ubicación
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const coords = pos.coords;
-        document.getElementById("ubicacion").value = `${coords.latitude},${coords.longitude}`;
-      },
-      (err) => {
-        document.getElementById("ubicacion").value = "Ubicación no disponible";
-      }
-    );
-  } else {
-    document.getElementById("ubicacion").value = "Geolocalización no soportada";
-  }
+  // Captura coordenadas y llena campo
+    function obtenerUbicacion() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const lat = position.coords.latitude.toFixed(6);
+                const lon = position.coords.longitude.toFixed(6);
+                document.getElementById('ubicacion').value = lat + "," + lon;
+            }, function(error) {
+                document.getElementById('ubicacion').value = "Error: " + error.message;
+            });
+        } else {
+            document.getElementById('ubicacion').value = "Geolocalización no soportada";
+        }
+    }
 
+   // Ejecutar al cargar
+    window.onload = obtenerUbicacion;
+
+  
   // Obtener correo con Google Sign-In (lo haremos en el siguiente paso si lo deseas)
 
   // Manejar envío (lo conectamos al script en el siguiente paso)
