@@ -197,7 +197,7 @@
     }
 
        // Envío del formulario con validación
-    document.getElementById('secure-form').addEventListener('submit', function(e){
+    	document.getElementById('secure-form').addEventListener('submit', function(e){
         e.preventDefault();
         const form = e.target;
         const geoField = document.getElementById('ubicacion');
@@ -223,8 +223,11 @@
         alert("Registro enviado correctamente.");
 	form.classList.add('hidden');
         document.getElementById('secure-form').classList.add('hidden');
-        setTimeout(() => location.reload(), 3000); // refresca la página después de 3 segundos
-        });
+        setTimeout(() => location.reload(), 3000);
+	.catch((error) => {
+  	alert("Ocurrió un error al enviar el registro.");
+  	console.error(error);
+		});// refresca la página después de 3 segundos
     });
 
 
