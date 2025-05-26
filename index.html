@@ -74,6 +74,11 @@
      .logo {
             max-width: 50px;
             margin-bottom: 10px;
+     }
+.hidden {
+  display: none;
+}
+
   </style>
 </head>
 <body>
@@ -216,6 +221,7 @@
       }).then(() => {
         form.reset();
         alert("Registro enviado correctamente.");
+	form.classList.add('hidden');
         document.getElementById('secure-form').classList.add('hidden');
         setTimeout(() => location.reload(), 3000); // refresca la página después de 3 segundos
         });
