@@ -10,15 +10,14 @@
       background: #f2f2f2;
     }
 
-            .container {
-            background-color: white;
-            padding: 20px;
-            max-width: 600px;
-            margin: auto;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-        }
-
+    .container {
+      background-color: white;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
     h2 {
       text-align: center;
     }
@@ -41,7 +40,7 @@
       box-sizing: border-box;
     }
     .readonly {
-      background-color: #e9e9e9;
+      background-color: white;
     }
     #hora {
       font-weight: bold;
@@ -57,23 +56,24 @@
       border-radius: 5px;
       font-size: 16px;
     }
-
      .logo {
             max-width: 50px;
             margin-bottom: 10px;
   </style>
 </head>
 <body>
-
   <div class="container">
+   // LOGO
   <img src="https://sitcarsa.github.io/regsIng/LOGO.png" alt="Logo de la empresa" class="logo">
-<h2>Registro de Ingreso / Salida</h2>
+
+    <h2>Registro de Ingreso / Salida</h2>
     <form id="secure-form" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSd3QzaCOG3jnU860QdrbHZkErO4JcLOZZ0zM-7xuD6LZoawZQ/formResponse" target="_self">
   
 
-  <label for="nombre">Nombre del colaborador:</label>
+  <label for="nombre">Nombre:</label>
   <select id="nombre" name="entry.7241129" required>
-    <option value="">Seleccione</option>
+  <option value="" disabled selected>Seleccione un nombre</option>
+
     <option value="Juan Pérez">Juan </option>
     <option value="María Gómez">María Gómez</option>
     <option value="Carlos Ruiz">Carlos Ruiz</option>
@@ -81,20 +81,18 @@
   </select>
 
   <label for="proceso">Proceso:</label>
-<input type="text" id="proceso" name="entry.1170449751" class="readonly" placeholder="------" readonly required>
-
+<input type="text" id="proceso" name="entry.1170449751" placeholder="------" readonly required>
 
   <label for="tipo">Tipo de registro:</label>
   <select id="tipo" name="entry.933602916" required>
+  <option value="" disabled selected>Seleccione una opción</option>
 
-    <option value="">Seleccione</option>
     <option value="Ingreso">Ingreso</option>
     <option value="Salida">Salida</option>
   </select>
 
   <label for="ubicacion">Ubicación:</label>
   <input type="text" id="ubicacion" name="entry.2081593853" readonly placeholder="Detectando ubicación..." required>
-
 
   <label for="correo">Correo electrónico:</label>
   <input type="email" id="correo" name="correo" class="readonly" readonly>
@@ -106,8 +104,7 @@
 </form>
 
 <script>
-    // Obtener ubicación
-  // Captura coordenadas y llena campo
+    // Captura coordenadas y llena campo
     function obtenerUbicacion() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
@@ -147,19 +144,32 @@
   actualizarHora();
 
   
-   document.getElementById("registroForm").addEventListener("submit", function (e) {
-    e.preventDefault();
+       // Envío del formulario con validación
+    document.getElementById('secure-form').addEventListener('submit', function(e){
+        e.preventDefault();
+        const form = e.target;
+        const geoField = document.getElementById('ubicacion');
 
-    // Aquí se haría la lógica para enviar datos a Apps Script (en el siguiente paso)
+        if (geoField.value === "" || geoField.value.includes("Error") || geoField.value === "Geolocalización no soportada") {
+            alert('Espere que se cargue la ubicación antes de enviar.');
+            return;
+        }
 
-    // Mostrar mensaje de éxito
-    document.getElementById("mensajeExito").style.display = "block";
 
-    // Esperar 3 segundos y recargar la página
-    setTimeout(() => {
-      location.reload();
-    }, 3000); // 3 segundos
-  });
+        const data = new FormData(form);
+
+       fetch(form.action, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: data
+        }).then(() => {
+            alert('Enviada exitosamente. Gracias.');
+            form.classList.add('hidden');
+            document.getElementById('section2').classList.remove('hidden');
+        
+        });
+    });
+
 
 </script>
     </form>
