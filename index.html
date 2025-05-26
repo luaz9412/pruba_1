@@ -9,6 +9,16 @@
       padding: 20px;
       background: #f2f2f2;
     }
+
+            .container {
+            background-color: white;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+
     h2 {
       text-align: center;
     }
@@ -51,6 +61,7 @@
 </head>
 <body>
 
+  <div class="container">
   <img src="https://sitcarsa.github.io/regsIng/LOGO.png" alt="Logo de la empresa" class="logo">
 <h2>Registro de Ingreso / Salida</h2>
     <form id="secure-form" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSd3QzaCOG3jnU860QdrbHZkErO4JcLOZZ0zM-7xuD6LZoawZQ/formResponse" target="_self">
@@ -136,6 +147,8 @@
     alert("Formulario listo para enviar. Conectaremos al backend.");
   });
 </script>
+    </form>
+  </div>
 
 </body>
 </html>
