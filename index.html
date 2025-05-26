@@ -149,20 +149,13 @@
   
   // Obtener correo con Google Sign-In (lo haremos en el siguiente paso si lo deseas)
 
-  
-        const data = new FormData(form);
+    // Manejar envío (lo conectamos al script en el siguiente paso)
+  document.getElementById("registroForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    // En el siguiente paso conectamos esto con Google Apps Script
+    alert("Formulario listo para enviar. Conectaremos al backend.");
+  });
 
-       fetch(form.action, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: data
-        }).then(() => {
-            alert('Enviada exitosamente. Gracias.');
-            form.classList.add('hidden');
-            document.getElementById('section2').classList.remove('hidden');
-        
-        });
-    });
 
 </script>
     </form>
