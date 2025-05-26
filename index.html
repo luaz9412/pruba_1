@@ -3,6 +3,10 @@
 <head>
   <title>Registro de Ingreso / Salida</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -62,6 +66,27 @@
   </style>
 </head>
 <body>
+
+  <!-- Google Sign-In -->
+  <div id="g_id_onload"
+      data-client_id="15501339-qhkplm7e1g45fj5tvvhpju5mgg5mah3m.apps.googleusercontent.com"
+      data-context="signin"
+      data-ux_mode="popup"
+      data-callback="handleCredentialResponse"
+      data-auto_prompt="true">
+  </div>
+
+  <div class="g_id_signin"
+      data-type="standard"
+      data-size="large"
+      data-theme="outline"
+      data-text="sign_in_with"
+      data-shape="rectangular"
+      data-logo_alignment="left">
+  </div>
+
+  <p id="usuarioLogueado" style="font-weight: bold; margin-top: 10px;"></p>
+  
   <div class="container">
 
   <img src="https://sitcarsa.github.io/regsIng/LOGO.png" alt="Logo de la empresa" class="logo">
@@ -103,6 +128,12 @@
   <button type="submit">Enviar registro</button>
 </form>
 
+  <section id="section2" class="hidden">
+    <h3> Datos enviados correctamente.</h3>
+  </section>
+
+
+    
 <script>
     // Captura coordenadas y llena campo
     function obtenerUbicacion() {
@@ -143,30 +174,43 @@
   setInterval(actualizarHora, 1000);
   actualizarHora();
 
-  
+      function handleCredentialResponse(response) {
+      const data = jwt_decode(response.credential);
+      const correo = data.email;
+      const nombre = data.name;
+
+      document.getElementById("correo").value = correo;
+      document.getElementById("usuarioLogueado").textContent = "Bienvenido, " + nombre + " (" + correo + ")";
+      document.querySelector(".g_id_signin").style.display = "none";
+    }
+
        // Envío del formulario con validación
     document.getElementById('secure-form').addEventListener('submit', function(e){
         e.preventDefault();
         const form = e.target;
         const geoField = document.getElementById('ubicacion');
+        const correo = document.getElementById('correo').value;
+
+            if (!correo) {
+        alert("Por favor, inicia sesión con Google antes de enviar.");
+        return;
+      }
 
         if (geoField.value === "" || geoField.value.includes("Error") || geoField.value === "Geolocalización no soportada") {
             alert('Espere que se cargue la ubicación antes de enviar.');
             return;
         }
-
-
         const data = new FormData(form);
 
        fetch(form.action, {
             method: 'POST',
             mode: 'no-cors',
             body: data
-        }).then(() => {
-            alert('Enviada exitosamente. Gracias.');
-            form.classList.add('hidden');
-            document.getElementById('section2').classList.remove('hidden');
-        
+      }).then(() => {
+        form.reset();
+        document.getElementById('secure-form').classList.add('hidden');
+        document.getElementById('section2').classList.remove('hidden');
+        setTimeout(() => location.reload(), 3000); // refresca la página después de 3 segundos
         });
     });
 
