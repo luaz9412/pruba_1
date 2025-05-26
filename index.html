@@ -148,18 +148,8 @@
 
   
   // Obtener correo con Google Sign-In (lo haremos en el siguiente paso si lo deseas)
-    // Envío del formulario con validación
-    document.getElementById('secure-form').addEventListener('submit', function(e){
-        e.preventDefault();
-        const form = e.target;
-        const geoField = document.getElementById('geo');
 
-        if (geoField.value === "" || geoField.value.includes("Error") || geoField.value === "Geolocalización no soportada") {
-            alert('Espere que se cargue la ubicación antes de enviar.');
-            return;
-        }
-
-
+  
         const data = new FormData(form);
 
        fetch(form.action, {
