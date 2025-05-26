@@ -74,7 +74,7 @@
   <label for="nombre">Nombre del colaborador:</label>
   <select id="nombre" name="entry.7241129" required>
     <option value="">Seleccione</option>
-    <option value="Juan Pérez">Juan Pérez</option>
+    <option value="Juan Pérez">Juan </option>
     <option value="María Gómez">María Gómez</option>
     <option value="Carlos Ruiz">Carlos Ruiz</option>
     <!-- Agrega más colaboradores -->
@@ -106,6 +106,25 @@
 </form>
 
 <script>
+    // Obtener ubicación
+  // Captura coordenadas y llena campo
+    function obtenerUbicacion() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const lat = position.coords.latitude.toFixed(6);
+                const lon = position.coords.longitude.toFixed(6);
+                document.getElementById('ubicacion').value = lat + "," + lon;
+            }, function(error) {
+                document.getElementById('ubicacion').value = "Error: " + error.message;
+            });
+        } else {
+            document.getElementById('ubicacion').value = "Geolocalización no soportada";
+        }
+    }
+
+   // Ejecutar al cargar
+    window.onload = obtenerUbicacion;
+
   // Asignar proceso según nombre
   const procesos = {
     "Juan Pérez": "Soporte Técnico",
@@ -126,25 +145,6 @@
   }
   setInterval(actualizarHora, 1000);
   actualizarHora();
-
-  // Obtener ubicación
-  // Captura coordenadas y llena campo
-    function obtenerUbicacion() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                const lat = position.coords.latitude.toFixed(6);
-                const lon = position.coords.longitude.toFixed(6);
-                document.getElementById('ubicacion').value = lat + "," + lon;
-            }, function(error) {
-                document.getElementById('ubicacion').value = "Error: " + error.message;
-            });
-        } else {
-            document.getElementById('ubicacion').value = "Geolocalización no soportada";
-        }
-    }
-
-   // Ejecutar al cargar
-    window.onload = obtenerUbicacion;
 
   
   // Obtener correo con Google Sign-In (lo haremos en el siguiente paso si lo deseas)
