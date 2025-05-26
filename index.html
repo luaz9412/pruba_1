@@ -210,6 +210,8 @@
             body: data
       }).then(() => {
         form.reset();
+        alert('Enviada exitosamente. Gracias
+        form.classList.add('hidden');
         document.getElementById('secure-form').classList.add('hidden');
         document.getElementById('section2').classList.remove('hidden');
         setTimeout(() => location.reload(), 3000); // refresca la página después de 3 segundos
