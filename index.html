@@ -111,7 +111,7 @@
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const coords = pos.coords;
-        document.getElementById("ubicacion").value = `Lat: ${coords.latitude}, Lon: ${coords.longitude}`;
+        document.getElementById("ubicacion").value = `${coords.latitude},${coords.longitude}`;
       },
       (err) => {
         document.getElementById("ubicacion").value = "Ubicación no disponible";
